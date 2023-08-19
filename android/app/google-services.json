@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "527892939651",
+    "project_id": "cafeconnect-b64da",
+    "storage_bucket": "cafeconnect-b64da.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527892939651:android:f026883529741fe4072cb6",
+        "android_client_info": {
+          "package_name": "com.example.cafeconnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527892939651-rmbgvssk4minfjr755pnm75lpa1c04sm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvkbQS_rZl3K1nLLpUki0Uw6PSvTdwO3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527892939651-rmbgvssk4minfjr755pnm75lpa1c04sm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
