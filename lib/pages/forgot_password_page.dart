@@ -59,7 +59,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
                 // logo
                 Image.asset(
-                  "../lib/images/logo.png",
+                  "lib/images/logo.png",
                   height: 125,
                 ),
 
