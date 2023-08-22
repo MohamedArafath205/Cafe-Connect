@@ -2,9 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
 import '../components/cafe_menu_tile.dart';
 import '../model/cart_model.dart';
+import 'cart_page.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -18,6 +18,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () =>
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return CartPage();
+          })),
+          backgroundColor: Colors.black,
+          child: Icon(Icons.shopping_cart),
+        ),
         appBar: AppBar(backgroundColor: Colors.grey[800], actions: [
           IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
         ]),
@@ -67,13 +75,19 @@ class HomePage extends StatelessWidget {
                       padding: EdgeInsets.all(12),
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
+                        crossAxisCount: 2,
+                        childAspectRatio: 1 / 1.3,
+                      ),
                       itemBuilder: (context, index) {
                         return CafeMenuTile(
                           itemName: value.shopItems[index][0],
                           itemPrice: value.shopItems[index][1],
                           imagePath: value.shopItems[index][2],
                           color: value.shopItems[index][3],
+                          onPressed: () {
+                            Provider.of<CartModel>(context, listen: false)
+                                .addItemToCart(index);
+                          },
                         );
                       });
                 }),
