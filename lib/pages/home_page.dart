@@ -33,33 +33,19 @@ class HomePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 48),
-              // greetings
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text("Hello there,"),
-              ),
-
-              const SizedBox(height: 4),
+              const SizedBox(height: 10),
               // Let's order something
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text(
                   "Enjoy your hassle free order experience",
                   style: GoogleFonts.notoSerif(
-                    fontSize: 36,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
 
-              // divider
-              const SizedBox(height: 24),
-
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.0),
-                child: Divider(),
-              ),
               // Menu
               const SizedBox(height: 24),
 
@@ -67,6 +53,8 @@ class HomePage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 24.0),
                 child: Text("Today's menu", style: TextStyle(fontSize: 16)),
               ),
+
+              const SizedBox(height: 24),
 
               Expanded(
                 child: Consumer<CartModel>(builder: (context, value, child) {

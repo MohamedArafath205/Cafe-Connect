@@ -43,7 +43,7 @@ class CafeMenuTile extends StatelessWidget {
               onPressed: onPressed,
               color: color[800],
               child: Text(
-                itemPrice,
+                "₹ " + itemPrice,
                 style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
