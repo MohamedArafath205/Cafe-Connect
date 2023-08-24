@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:badges/badges.dart' as badge;
 import '../components/cafe_menu_tile.dart';
 import '../model/cart_model.dart';
 import 'cart_page.dart';
@@ -24,7 +25,20 @@ class HomePage extends StatelessWidget {
             return CartPage();
           })),
           backgroundColor: Colors.black,
-          child: Icon(Icons.shopping_cart),
+          child: badge.Badge(
+            position: badge.BadgePosition.topEnd(top: -23, end: -20),
+            badgeContent: Text(
+              Provider.of<CartModel>(context).cartItems.length.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+            child: Icon(Icons.shopping_cart),
+            badgeStyle: const badge.BadgeStyle(
+              badgeColor: Colors.blue,
+            ),
+            badgeAnimation: const badge.BadgeAnimation.fade(
+              animationDuration: Duration(milliseconds: 500),
+            ),
+          ),
         ),
         appBar: AppBar(backgroundColor: Colors.grey[800], actions: [
           IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
