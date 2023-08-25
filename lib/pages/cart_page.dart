@@ -2,12 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../model/cart_model.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+class CartPage extends StatefulWidget {
+  CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  var _razorpay = Razorpay();
+
+  @override
+  void initState() {
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) {
+    // Do something when payment succeeds
+    print("Payment Success");
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    // Do something when payment fails
+    print("Payment Failed");
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    // Do something when an external wallet is selected
+  }
 
   @override
   Widget build(BuildContext context) {
+    var options = {
+      'key': '<YOUR_KEY_ID>',
+      'amount': 50000, //in the smallest currency sub-unit.
+      'name': 'Acme Corp.',
+      'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
+      'description': 'Fine T-Shirt',
+      'timeout': 60, // in seconds
+      'prefill': {
+        'contact': '',
+        'email': '',
+      },
+    };
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -86,23 +127,39 @@ class CartPage extends StatelessWidget {
                       ),
 
                       // Pay Now button
-                      Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.green.shade100),
-                            borderRadius: BorderRadius.circular(12)),
-                        padding: EdgeInsets.all(12),
-                        child: const Row(
-                          children: [
-                            Text(
-                              "Pay Now",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Icon(
-                              Icons.arrow_forward_ios,
-                              size: 16,
-                              color: Colors.white,
-                            )
-                          ],
+                      GestureDetector(
+                        onTap: () {
+                          var options = {
+                            'key': 'rzp_test_1hIbacHpTw8wwc',
+                            'amount': 100,
+                            'name': 'Cafe Connect',
+                            'description': 'Connect with cafe connect',
+                            'timeout': 300,
+                            'prefill': {
+                              'contact': '9123456789',
+                              'email': 'gaurav.kumar@example.com'
+                            }
+                          };
+                          _razorpay.open(options);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.green.shade100),
+                              borderRadius: BorderRadius.circular(12)),
+                          padding: EdgeInsets.all(12),
+                          child: const Row(
+                            children: [
+                              Text(
+                                "Pay Now",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Icon(
+                                Icons.arrow_forward_ios,
+                                size: 16,
+                                color: Colors.white,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ]),
@@ -112,5 +169,11 @@ class CartPage extends StatelessWidget {
         );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _razorpay.clear();
   }
 }
