@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../components/my_button.dart';
 import '../components/my_textfield.dart';
 import '../components/square_tile.dart';
+import 'admin_login.dart';
 import 'forgot_password_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -216,6 +217,28 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ],
+                ),
+
+                const SizedBox(height: 25),
+
+                MouseRegion(
+                  cursor: SystemMouseCursors.click,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => AdminLoginPage()),
+                      );
+                    },
+                    child: const Text(
+                      'Admin Login',
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
                 ),
 
                 const SizedBox(height: 25),

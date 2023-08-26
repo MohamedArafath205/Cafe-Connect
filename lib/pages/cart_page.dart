@@ -37,18 +37,6 @@ class _CartPageState extends State<CartPage> {
 
   @override
   Widget build(BuildContext context) {
-    var options = {
-      'key': '<YOUR_KEY_ID>',
-      'amount': 50000, //in the smallest currency sub-unit.
-      'name': 'Acme Corp.',
-      'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
-      'description': 'Fine T-Shirt',
-      'timeout': 60, // in seconds
-      'prefill': {
-        'contact': '',
-        'email': '',
-      },
-    };
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
