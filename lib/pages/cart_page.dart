@@ -44,16 +44,14 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) async {
-    String userId = getCurrentUserUID();
     DocumentReference orderCountRef =
         FirebaseFirestore.instance.collection('OrderCount').doc('count');
     var data = (await orderCountRef.get()).data() as Map<String, dynamic>?;
     int orderCount = data?['count'] ?? 0;
     await orderCountRef.set({'count': orderCount + 1});
 
-    String email = await getCurrentUserEmail();
     var cartModel = Provider.of<CartModel>(context, listen: false);
-    var cartCollection = FirebaseFirestore.instance
+    var cartCollection = FirebaseFirestore.instance // Change collection name
         .collection('TokenNumbers') // Change collection name
         .doc(orderCount.toString()); // Use the orderCount as the document ID
 
