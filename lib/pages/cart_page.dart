@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -21,13 +23,58 @@ class _CartPageState extends State<CartPage> {
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
   }
 
-  void _handlePaymentSuccess(PaymentSuccessResponse response) {
-    // Do something when payment succeeds
+  // getting user email from firebase
+  Future<String> getCurrentUserEmail() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.email ?? '';
+    } else {
+      return '';
+    }
+  }
+
+  // getting the current userid from firebase
+  String getCurrentUserUID() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      return ''; // User is not signed in
+    }
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    String userId = getCurrentUserUID();
+    DocumentReference orderCountRef =
+        FirebaseFirestore.instance.collection('OrderCount').doc('count');
+    var data = (await orderCountRef.get()).data() as Map<String, dynamic>?;
+    int orderCount = data?['count'] ?? 0;
+    await orderCountRef.set({'count': orderCount + 1});
+
+    String email = await getCurrentUserEmail();
+    var cartModel = Provider.of<CartModel>(context, listen: false);
+    var cartCollection = FirebaseFirestore.instance
+        .collection('TokenNumbers') // Change collection name
+        .doc(orderCount.toString()); // Use the orderCount as the document ID
+
+    Map<String, dynamic> cartItemsMap =
+        {}; // Create a map to hold all cart items
+
+    // Populate the map with cart items
+    for (var cartItem in cartModel.cartItems) {
+      cartItemsMap[cartItem[0]] = {
+        'itemPrice': cartItem[1],
+      };
+    }
+
+    cartCollection.set(cartItemsMap);
+
     print("Payment Success");
+
+    CartModel().clearCart();
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    // Do something when payment fails
     print("Payment Failed");
   }
 

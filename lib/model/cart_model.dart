@@ -28,6 +28,12 @@ class CartModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // removing the whole cart
+  void clearCart() {
+    _cartItems.clear();
+    notifyListeners();
+  }
+
   // Calculating the total price
   String calculateTotal() {
     double totalPrice = 0;
