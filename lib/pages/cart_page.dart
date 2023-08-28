@@ -60,7 +60,8 @@ class _CartPageState extends State<CartPage> {
 
     // Populate the map with cart items
     for (var cartItem in cartModel.cartItems) {
-      cartItemsMap[cartItem[0]] = {
+      cartItemsMap = {
+        'itemName': cartItem[0],
         'itemPrice': cartItem[1],
       };
     }
