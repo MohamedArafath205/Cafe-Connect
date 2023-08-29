@@ -51,22 +51,20 @@ class _CartPageState extends State<CartPage> {
     await orderCountRef.set({'count': orderCount + 1});
 
     var cartModel = Provider.of<CartModel>(context, listen: false);
-    var cartCollection = FirebaseFirestore.instance // Change collection name
-        .collection('TokenNumbers') // Change collection name
-        .doc(orderCount.toString()); // Use the orderCount as the document ID
 
-    Map<String, dynamic> cartItemsMap =
-        {}; // Create a map to hold all cart items
+    Map<String, dynamic> cartItemsMap = {};
 
-    // Populate the map with cart items
     for (var cartItem in cartModel.cartItems) {
-      cartItemsMap = {
-        'itemName': cartItem[0],
-        'itemPrice': cartItem[1],
-      };
+      cartItemsMap[cartItem[0]] =
+          cartItem[1]; // Use item name as key, and price as value
     }
 
-    cartCollection.set(cartItemsMap);
+    DocumentReference orderDocRef = FirebaseFirestore.instance
+        .collection('TokenNumbers')
+        .doc(orderCount.toString());
+
+    await orderDocRef.set(
+        cartItemsMap, SetOptions(merge: true)); // Merge with existing data
 
     print("Payment Success");
 

@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AdminPage extends StatefulWidget {
@@ -38,7 +36,13 @@ class _AdminPageState extends State<AdminPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
-              Text("Today's Order"),
+              Text(
+                "Today's Order",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Expanded(
                 child: FutureBuilder<void>(
                   future: fetchingData(),
@@ -51,16 +55,33 @@ class _AdminPageState extends State<AdminPage> {
                       return ListView.builder(
                         itemCount: docIDs.length,
                         itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {},
-                            child: Card(
-                              elevation: 2,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: 8, horizontal: 16),
-                              color: Colors.grey[200],
-                              child: ListTile(
-                                title: Text('Order Number: ${docIDs[index]}'),
-                                trailing: Icon(Icons.arrow_forward),
+                          return Card(
+                            elevation: 2,
+                            margin: EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
+                            ),
+                            color: Colors.grey[200],
+                            child: ListTile(
+                              title: Text(
+                                'Token Number: ${docIDs[index]}',
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              subtitle: FutureBuilder<String>(
+                                future: _getItemNames(docIDs[index]),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  } else if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  } else {
+                                    return Text(
+                                      'Items:\n${snapshot.data}',
+                                      style: TextStyle(fontSize: 16),
+                                    );
+                                  }
+                                },
                               ),
                             ),
                           );
@@ -75,5 +96,37 @@ class _AdminPageState extends State<AdminPage> {
         ),
       ),
     );
+  }
+
+  Future<String> _getItemNames(String docID) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> docSnapshot =
+          await FirebaseFirestore.instance
+              .collection('TokenNumbers')
+              .doc(docID)
+              .get();
+
+      if (!docSnapshot.exists) {
+        return 'No data available';
+      }
+
+      Map<String, dynamic>? data = docSnapshot.data();
+
+      if (data == null) {
+        return 'N/A';
+      }
+
+      String itemDetails = '';
+
+      data.forEach((key, value) {
+        if (key != 'OrderCount') {
+          itemDetails += '$key - ₹$value\n';
+        }
+      });
+
+      return itemDetails.trim(); // Remove trailing newline
+    } catch (e) {
+      return 'N/A';
+    }
   }
 }
