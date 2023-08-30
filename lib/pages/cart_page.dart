@@ -1,3 +1,4 @@
+import 'package:cafeconnect/pages/token_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,21 @@ class _CartPageState extends State<CartPage> {
 
     print("Payment Success");
 
+    String itemNames =
+        cartModel.cartItems.map((cartItem) => cartItem[0]).join(', ');
+
     CartModel().clearCart();
+    navigateToTokenPage(orderCount, itemNames);
+  }
+
+  void navigateToTokenPage(orderCount, itemNames) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => TokenPage(
+                  orderNumber: orderCount,
+                  itemNames: itemNames,
+                )));
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
