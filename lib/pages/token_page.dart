@@ -7,13 +7,27 @@ import 'package:flutter/material.dart';
 class TokenPage extends StatefulWidget {
   final int orderNumber;
   final String itemNames;
-  TokenPage({required this.orderNumber, required this.itemNames});
+  const TokenPage({required this.orderNumber, required this.itemNames});
 
   @override
   State<TokenPage> createState() => TokenPageState();
 }
 
 class TokenPageState extends State<TokenPage> {
+  void reduceOrderCount() async {
+    DocumentReference orderCountRef =
+        FirebaseFirestore.instance.collection('OrderCount').doc('count');
+
+    // Get the current order count
+    var data = (await orderCountRef.get()).data() as Map<String, dynamic>?;
+    int orderCount = data?['count'] ?? 0;
+
+    if (orderCount > 0) {
+      orderCount--;
+      await orderCountRef.set({'count': orderCount});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +41,7 @@ class TokenPageState extends State<TokenPage> {
             const SizedBox(height: 15),
 
             // order recieved text
-            Text(
+            const Text(
               "Order Recieved Successfully!",
               style: TextStyle(),
             ),
@@ -36,7 +50,7 @@ class TokenPageState extends State<TokenPage> {
             const SizedBox(height: 150),
             Text(
               "Token number: ${widget.orderNumber}",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
@@ -46,13 +60,13 @@ class TokenPageState extends State<TokenPage> {
             const SizedBox(height: 25),
             Text(
               "Your Items: ${widget.itemNames}",
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),
 
-            Spacer(),
+            const Spacer(),
 
             // cancel button
             MyCancelButton(
@@ -65,7 +79,7 @@ class TokenPageState extends State<TokenPage> {
                             "Warning",
                             style: TextStyle(color: Colors.red[500]),
                           ),
-                          content: Text(
+                          content: const Text(
                               "If you cancel your order, your money will be refunded after 5-7 working days only. Are you sure you want to cancel this order?"),
                           actions: [
                             MaterialButton(
@@ -73,10 +87,13 @@ class TokenPageState extends State<TokenPage> {
                                 Navigator.pop(context);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text("Order Cancelled!"),
+                                    content: const Text("Order Cancelled!"),
                                     backgroundColor: Colors.red[500],
                                   ),
                                 );
+
+                                reduceOrderCount();
+
                                 FirebaseFirestore.instance
                                     .collection("TokenNumbers")
                                     .doc(widget.orderNumber.toString())
@@ -91,13 +108,13 @@ class TokenPageState extends State<TokenPage> {
                                     MaterialPageRoute(
                                         builder: (context) => HomePage()));
                               },
-                              child: Text("Ok"),
+                              child: const Text("Ok"),
                             ),
                             MaterialButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text("Cancel"),
+                              child: const Text("Cancel"),
                             ),
                           ],
                         );
