@@ -2,24 +2,42 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AdminPage extends StatefulWidget {
-  AdminPage({super.key});
+  static const String routeName = '/admin';
 
   @override
-  State<AdminPage> createState() => _AdminPageState();
+  _AdminPageState createState() => _AdminPageState();
 }
 
 class _AdminPageState extends State<AdminPage> {
   List<String> docIDs = [];
+  List<bool> ordersDelivered = [];
 
-  Future<void> fetchingData() async {
-    docIDs.clear(); // Clear the list before fetching new data
-    QuerySnapshot<Map<String, dynamic>> snapshot =
-        await FirebaseFirestore.instance.collection('TokenNumbers').get();
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the data and set up a listener for changes
+    _setupDataListener();
+  }
 
-    for (QueryDocumentSnapshot<Map<String, dynamic>> document
-        in snapshot.docs) {
-      docIDs.add(document.reference.id);
-    }
+  // Function to set up a listener for changes in the database
+  void _setupDataListener() {
+    FirebaseFirestore.instance
+        .collection('TokenNumbers')
+        .snapshots()
+        .listen((snapshot) {
+      // Clear the lists before updating
+      docIDs.clear();
+      ordersDelivered.clear();
+
+      for (QueryDocumentSnapshot<Map<String, dynamic>> document
+          in snapshot.docs) {
+        docIDs.add(document.reference.id);
+        ordersDelivered.add(document.data()['delivered'] ?? false);
+      }
+
+      // Trigger a rebuild of the widget to reflect the updated data
+      setState(() {});
+    });
   }
 
   @override
@@ -44,30 +62,27 @@ class _AdminPageState extends State<AdminPage> {
                 ),
               ),
               Expanded(
-                child: FutureBuilder<void>(
-                  future: fetchingData(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
+                child: ListView.builder(
+                  itemCount: docIDs.length,
+                  itemBuilder: (context, index) {
+                    if (ordersDelivered[index]) {
+                      return Container(); // Hide delivered orders
                     } else {
-                      return ListView.builder(
-                        itemCount: docIDs.length,
-                        itemBuilder: (context, index) {
-                          return Card(
-                            elevation: 2,
-                            margin: EdgeInsets.symmetric(
-                              vertical: 8,
-                              horizontal: 16,
-                            ),
-                            color: Colors.grey[200],
-                            child: ListTile(
-                              title: Text(
-                                'Token Number: ${docIDs[index]}',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: FutureBuilder<String>(
+                      return Card(
+                        elevation: 2,
+                        margin: EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 16,
+                        ),
+                        color: Colors.grey[200],
+                        child: ListTile(
+                          title: Text(
+                            'Token Number: ${docIDs[index]}',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Column(
+                            children: [
+                              FutureBuilder<String>(
                                 future: _getItemNames(docIDs[index]),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
@@ -83,9 +98,26 @@ class _AdminPageState extends State<AdminPage> {
                                   }
                                 },
                               ),
-                            ),
-                          );
-                        },
+                              ElevatedButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Order ${docIDs[index]} delivered',
+                                      ),
+                                      backgroundColor: Colors.green[500],
+                                    ),
+                                  );
+
+                                  setState(() {
+                                    ordersDelivered[index] = true;
+                                  });
+                                },
+                                child: Text("Delivered"),
+                              ),
+                            ],
+                          ),
+                        ),
                       );
                     }
                   },
