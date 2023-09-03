@@ -1,11 +1,16 @@
 import 'package:cafeconnect/pages/token_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../model/cart_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+import 'home_page.dart';
+import 'navbar.dart';
 
 class CartPage extends StatefulWidget {
   CartPage({super.key});
@@ -97,22 +102,22 @@ class _CartPageState extends State<CartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-      ),
+      backgroundColor: Colors.grey[900],
       body: Consumer<CartModel>(builder: (context, value, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: Text(
-                "My Cart",
-                style: GoogleFonts.notoSerif(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: Text(
+                  "My Cart",
+                  style: GoogleFonts.notoSerif(
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[300],
+                  ),
                 ),
               ),
             ),
@@ -127,16 +132,23 @@ class _CartPageState extends State<CartPage> {
                         padding: const EdgeInsets.all(12.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: Colors.grey[200],
+                            color: Colors.grey[800],
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: ListTile(
                             leading: Image.asset(value.cartItems[index][2],
                                 height: 36),
-                            title: Text(value.cartItems[index][0]),
-                            subtitle: Text("₹ " + value.cartItems[index][1]),
+                            title: Text(
+                              value.cartItems[index][0],
+                              style: TextStyle(color: Colors.grey[300]),
+                            ),
+                            subtitle: Text("₹ " + value.cartItems[index][1],
+                                style: TextStyle(color: Colors.grey[300])),
                             trailing: IconButton(
-                              icon: Icon(Icons.cancel),
+                              icon: Icon(
+                                Icons.cancel,
+                                color: Colors.grey[300],
+                              ),
                               onPressed: () =>
                                   Provider.of<CartModel>(context, listen: false)
                                       .removeItemFromCart(index),
@@ -148,7 +160,7 @@ class _CartPageState extends State<CartPage> {
 
             // total price
             Padding(
-              padding: const EdgeInsets.all(36.0),
+              padding: const EdgeInsets.all(18.0),
               child: Container(
                 decoration: BoxDecoration(
                     color: Colors.green,
