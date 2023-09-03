@@ -47,7 +47,7 @@ class _AdminPageState extends State<AdminPage> {
         title: Text('Admin Page'),
         backgroundColor: Colors.blueAccent,
       ),
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.black.withOpacity(0.9),
       body: Center(
         child: SafeArea(
           child: Column(

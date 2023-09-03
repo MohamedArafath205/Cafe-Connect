@@ -33,7 +33,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[900],
       body: Center(
         child: SingleChildScrollView(
           child: SafeArea(
@@ -61,7 +61,7 @@ class _AdminLoginPageState extends State<AdminLoginPage> {
                 // Password textfield
                 MyTextField(
                   controller: passwordController,
-                  hintText: 'Password',
+                  hintText: 'Admin password',
                   obscureText: true,
                 ),
 

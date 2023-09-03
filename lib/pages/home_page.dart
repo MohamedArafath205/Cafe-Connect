@@ -49,16 +49,7 @@ class HomePage extends StatelessWidget {
             children: [
               const SizedBox(height: 10),
               // Let's order something
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                child: Text(
-                  "Enjoy your hassle free order experience",
-                  style: GoogleFonts.notoSerif(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              Image.asset('lib/images/cafebackground.jpeg'),
 
               // Menu
               const SizedBox(height: 24),
