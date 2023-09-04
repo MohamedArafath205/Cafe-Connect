@@ -8,7 +8,6 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../model/cart_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
 import 'home_page.dart';
 import 'navbar.dart';
 
@@ -99,10 +98,17 @@ class _CartPageState extends State<CartPage> {
     // Do something when an external wallet is selected
   }
 
+  int _currentIndex = 1;
+  final List<Widget> _pages = [
+    CartPage(),
+    // Add other pages here
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
+      bottomNavigationBar: BottomNavbar(pageindex: 1),
       body: Consumer<CartModel>(builder: (context, value, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,

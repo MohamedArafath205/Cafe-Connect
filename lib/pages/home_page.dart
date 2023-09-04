@@ -8,41 +8,12 @@ import 'package:badges/badges.dart' as badge;
 import '../components/cafe_menu_tile.dart';
 import '../model/cart_model.dart';
 import 'cart_page.dart';
+import 'navbar.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
 
   final user = FirebaseAuth.instance.currentUser!;
-
-  void signUserOut(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext) {
-          return CupertinoAlertDialog(
-            title: const Text("Logout ?"),
-            content: const Text("Are you sure you want to logout?"),
-            actions: [
-              CupertinoDialogAction(
-                  child: Text("Logout"),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                    Navigator.pop(context);
-                  }),
-              CupertinoDialogAction(
-                  child: Text("Cancel"),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }),
-            ],
-          );
-        });
-  }
-
-  int _currentIndex = 0;
-  final List<Widget> _pages = [
-    CartPage(),
-    // Add other pages here
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -73,36 +44,8 @@ class HomePage extends StatelessWidget {
         //   IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
         // ]),
 
-        bottomNavigationBar: GNav(
-          backgroundColor: Colors.black,
-          color: Colors.white,
-          activeColor: Colors.white,
-          tabBackgroundColor: Colors.grey.shade800,
-          padding: EdgeInsets.all(16),
-          gap: 8,
-          onTabChange: (index) {
-            if (index == 2) {
-              signUserOut(context);
-            } else if (index == 1) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return CartPage();
-              }));
-            }
-          },
-          tabs: const [
-            GButton(
-              icon: Icons.home,
-              text: 'Home',
-            ),
-            GButton(
-              icon: Icons.shopping_cart,
-              text: 'Cart',
-            ),
-            GButton(
-              icon: Icons.logout,
-              text: 'Logout',
-            ),
-          ],
+        bottomNavigationBar: BottomNavbar(
+          pageindex: 0,
         ),
         body: SafeArea(
           child: Column(
