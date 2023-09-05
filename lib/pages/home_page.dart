@@ -1,8 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badge;
 import '../components/cafe_menu_tile.dart';
@@ -44,7 +41,7 @@ class HomePage extends StatelessWidget {
         //   IconButton(onPressed: signUserOut, icon: Icon(Icons.logout))
         // ]),
 
-        bottomNavigationBar: BottomNavbar(
+        bottomNavigationBar: const BottomNavbar(
           pageindex: 0,
         ),
         body: SafeArea(
@@ -81,7 +78,7 @@ class HomePage extends StatelessWidget {
                           itemName: value.shopItems[index][0],
                           itemPrice: value.shopItems[index][1],
                           imagePath: value.shopItems[index][2],
-                          color: value.shopItems[index][3],
+                          isVeg: value.shopItems[index][3],
                           onPressed: () {
                             Provider.of<CartModel>(context, listen: false)
                                 .addItemToCart(index);

@@ -18,7 +18,10 @@ class BottomNavbar extends StatelessWidget {
             content: const Text("Are you sure you want to logout?"),
             actions: [
               CupertinoDialogAction(
-                  child: Text("Logout"),
+                  child: Text(
+                    "Logout",
+                    style: TextStyle(color: Colors.red),
+                  ),
                   onPressed: () {
                     FirebaseAuth.instance.signOut();
                     Navigator.pop(context);

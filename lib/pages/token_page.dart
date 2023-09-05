@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class TokenPage extends StatefulWidget {
   final int orderNumber;
   final String itemNames;
-  const TokenPage({required this.orderNumber, required this.itemNames});
+  const TokenPage(
+      {super.key, required this.orderNumber, required this.itemNames});
 
   @override
   State<TokenPage> createState() => TokenPageState();
@@ -31,19 +32,27 @@ class TokenPageState extends State<TokenPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[900],
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // successfull gif
             const SizedBox(height: 100),
-            Image.asset('lib/images/successfull.gif', height: 150),
+            const Icon(
+              Icons.check_circle_rounded,
+              color: Colors.green,
+              size: 150,
+            ),
             const SizedBox(height: 15),
 
             // order recieved text
             const Text(
-              "Order Recieved Successfully!",
-              style: TextStyle(),
+              "Order Placed Successfully!",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
             ),
 
             // order number
@@ -52,7 +61,7 @@ class TokenPageState extends State<TokenPage> {
               "Token number: ${widget.orderNumber}",
               style: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ), // displays current order number
 
@@ -62,7 +71,7 @@ class TokenPageState extends State<TokenPage> {
               "Your Items: ${widget.itemNames}",
               style: const TextStyle(
                 fontSize: 16,
-                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
 
@@ -108,7 +117,10 @@ class TokenPageState extends State<TokenPage> {
                                     MaterialPageRoute(
                                         builder: (context) => HomePage()));
                               },
-                              child: const Text("Ok"),
+                              child: const Text(
+                                "Ok",
+                                style: TextStyle(color: Colors.red),
+                              ),
                             ),
                             MaterialButton(
                               onPressed: () {

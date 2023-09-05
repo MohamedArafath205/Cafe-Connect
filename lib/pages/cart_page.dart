@@ -1,31 +1,29 @@
 import 'package:cafeconnect/pages/token_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:provider/provider.dart';
 import '../model/cart_model.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'home_page.dart';
 import 'navbar.dart';
 
 class CartPage extends StatefulWidget {
-  CartPage({super.key});
+  const CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
 }
 
 class _CartPageState extends State<CartPage> {
-  var _razorpay = Razorpay();
+  final _razorpay = Razorpay();
 
   @override
   void initState() {
     _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
     _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
     _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+    super.initState();
   }
 
   // getting user email from firebase
@@ -71,8 +69,6 @@ class _CartPageState extends State<CartPage> {
     await orderDocRef.set(
         cartItemsMap, SetOptions(merge: true)); // Merge with existing data
 
-    print("Payment Success");
-
     String itemNames =
         cartModel.cartItems.map((cartItem) => cartItem[0]).join(', ');
 
@@ -91,24 +87,18 @@ class _CartPageState extends State<CartPage> {
   }
 
   void _handlePaymentError(PaymentFailureResponse response) {
-    print("Payment Failed");
+    print("Payment Error");
   }
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     // Do something when an external wallet is selected
   }
 
-  int _currentIndex = 1;
-  final List<Widget> _pages = [
-    CartPage(),
-    // Add other pages here
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
-      bottomNavigationBar: BottomNavbar(pageindex: 1),
+      bottomNavigationBar: const BottomNavbar(pageindex: 1),
       body: Consumer<CartModel>(builder: (context, value, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +122,7 @@ class _CartPageState extends State<CartPage> {
             Expanded(
                 child: ListView.builder(
                     itemCount: value.cartItems.length,
-                    padding: EdgeInsets.all(12),
+                    padding: const EdgeInsets.all(12),
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.all(12.0),
@@ -211,7 +201,7 @@ class _CartPageState extends State<CartPage> {
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.green.shade100),
                               borderRadius: BorderRadius.circular(12)),
-                          padding: EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           child: const Row(
                             children: [
                               Text(
