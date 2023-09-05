@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           onPressed: () =>
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return CartPage();
+            return const CartPage();
           })),
           backgroundColor: Colors.black,
           child: badge.Badge(

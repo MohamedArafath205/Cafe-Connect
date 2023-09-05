@@ -21,7 +21,7 @@ class CafeMenuTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: Container(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.grey[800],
           borderRadius: BorderRadius.circular(12),
@@ -78,7 +78,7 @@ class CafeMenuTile extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            Text(itemName, style: TextStyle(color: Colors.white)),
+            Text(itemName, style: const TextStyle(color: Colors.white)),
 
             // price + button
             MaterialButton(

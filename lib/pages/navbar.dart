@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
 import 'cart_page.dart';
 import 'home_page.dart';
 
@@ -18,7 +17,7 @@ class BottomNavbar extends StatelessWidget {
             content: const Text("Are you sure you want to logout?"),
             actions: [
               CupertinoDialogAction(
-                  child: Text(
+                  child: const Text(
                     "Logout",
                     style: TextStyle(color: Colors.red),
                   ),
@@ -27,7 +26,7 @@ class BottomNavbar extends StatelessWidget {
                     Navigator.pop(context);
                   }),
               CupertinoDialogAction(
-                  child: Text("Cancel"),
+                  child: const Text("Cancel"),
                   onPressed: () {
                     Navigator.pop(context);
                   }),
