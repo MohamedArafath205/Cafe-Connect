@@ -186,14 +186,11 @@ class _CartPageState extends State<CartPage> {
                         onTap: () {
                           var options = {
                             'key': 'rzp_test_1hIbacHpTw8wwc',
-                            'amount': 100,
+                            'amount':
+                                double.parse(value.calculateTotal()) * 100,
                             'name': 'Cafe Connect',
                             'description': 'Connect with cafe connect',
                             'timeout': 300,
-                            'prefill': {
-                              'contact': '9123456789',
-                              'email': 'gaurav.kumar@example.com'
-                            }
                           };
                           _razorpay.open(options);
                         },
