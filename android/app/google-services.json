@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "527892939651",
+    "firebase_url": "https://cafeconnect-b64da-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "cafeconnect-b64da",
     "storage_bucket": "cafeconnect-b64da.appspot.com"
   },
@@ -14,7 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "527892939651-rmbgvssk4minfjr755pnm75lpa1c04sm.apps.googleusercontent.com",
+          "client_id": "527892939651-tv8kk0cs68qatd1j6clm2tqaskileu6m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cafeconnect",
+            "certificate_hash": "b368a83831f41c3e1751150dabe540e77e718bfd"
+          }
+        },
+        {
+          "client_id": "527892939651-pl5tdvu01ca0h4bdibe3ev6ufs9a2kp4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +36,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "527892939651-rmbgvssk4minfjr755pnm75lpa1c04sm.apps.googleusercontent.com",
+              "client_id": "527892939651-cbpsau7pmcapb6u0ont1cb442k7t96oa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "527892939651-j5cr7umlimbeod3iqclql6n8aerjg9t0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.cafeconnect"
+              }
             }
           ]
         }
