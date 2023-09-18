@@ -6,7 +6,7 @@ class AuthService {
     // begin interactive sign in process
     final GoogleSignInAccount? gUser = await GoogleSignIn(
             clientId:
-                "527892939651-cbpsau7pmcapb6u0ont1cb442k7t96oa.apps.googleusercontent.com")
+                "527892939651-pl5tdvu01ca0h4bdibe3ev6ufs9a2kp4.apps.googleusercontent.com")
         .signIn();
 
     // obtain auth details from request
