@@ -1,3 +1,4 @@
+import 'package:cafeconnect/pages/phone_verification_page.dart';
 import 'package:cafeconnect/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -187,7 +188,13 @@ class _LoginPageState extends State<LoginPage> {
                     // apple button
                     SquareTile(
                       imagePath: 'lib/images/apple.png',
-                      onTap: () {},
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => phoneVerificationPage()),
+                        )
+                      },
                     )
                   ],
                 ),
