@@ -1,5 +1,6 @@
 {
     "dart.previewHotReloadOnSaveWatcher": true,
     "dart.flutterHotReloadOnSave": "all",
-    "dart.hotReloadOnSave": "all"
+    "dart.hotReloadOnSave": "all",
+    "cmake.sourceDirectory": "C:/Users/Arafath/OneDrive/Desktop/Studies/Cafe-Connect/linux"
 }

@@ -54,13 +54,15 @@ class _AdminPageState extends State<AdminPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 20),
-              Text(
+              const Text(
                 "Today's Order",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: docIDs.length,
@@ -70,15 +72,17 @@ class _AdminPageState extends State<AdminPage> {
                     } else {
                       return Card(
                         elevation: 2,
-                        margin: EdgeInsets.symmetric(
+                        margin: const EdgeInsets.symmetric(
                           vertical: 8,
                           horizontal: 16,
                         ),
-                        color: Colors.grey[800],
+                        color: Colors.grey[900],
                         child: ListTile(
                           title: Text(
                             'Token Number: ${docIDs[index]}',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white.withOpacity(0.9)),
                           ),
                           subtitle: Column(
                             children: [
@@ -93,7 +97,9 @@ class _AdminPageState extends State<AdminPage> {
                                   } else {
                                     return Text(
                                       'Items:\n${snapshot.data}',
-                                      style: TextStyle(fontSize: 16),
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white.withOpacity(0.8)),
                                     );
                                   }
                                 },
